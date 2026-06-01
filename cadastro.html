@@ -1,0 +1,540 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro de Loja — ForteLocal</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:'Nunito', sans-serif;
+  color:#111;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:2rem;
+
+  background:
+    linear-gradient(rgba(255,255,255,.72), rgba(255,255,255,.72)),
+    url("");
+
+  background-size:cover;
+  background-position:center;
+  background-attachment: fixed;
+}
+
+.cancel-btn{
+  width:100%;
+  margin-top:1.5rem;
+  padding:1rem;
+  border:none;
+  border-radius:14px;
+  background:rgb(255, 255, 255);
+  box-shadow:0 6px 18px rgba(0,0,0,.08);
+  color:#111;
+  font-family:'Nunito', sans-serif;
+  font-size:1rem;
+  font-weight:700;
+  cursor:pointer;
+  transition:.2s ease;
+}
+
+.back-btn{
+  position:fixed;
+  top:20px;
+  left:20px;
+  background:#fff;
+  color:#111;
+  padding:10px 18px;
+  border-radius:999px;
+  text-decoration:none;
+  font-family:'Nunito', sans-serif;
+  font-weight:700;
+  z-index:999;
+  box-shadow:0 6px 18px rgba(0,0,0,.08);
+  transition:.2s ease;
+}
+
+.back-btn:hover{
+  transform:translateY(-2px);
+}
+
+.overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.35);
+  z-index:0;
+}
+
+.cadastro-box{
+  position:relative;
+  z-index:1;
+  width:100%;
+  max-width:700px;
+
+  background: rgba(255,255,255,.97);
+  border-radius:24px;
+  padding:2rem;
+  box-shadow:0 20px 50px rgba(0,0,0,.18);
+}
+
+.logo{
+  width:90px;
+  height:90px;
+  border-radius:50%;
+  object-fit:cover;
+  display:block;
+  margin:0 auto 1rem;
+}
+
+h1{
+  text-align:center;
+  margin-bottom:.5rem;
+  font-size:2rem;
+  font-family:'Nunito', sans-serif;
+}
+
+.subtitle{
+  text-align:center;
+  color:#555;
+  margin-bottom:2rem;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1rem;
+}
+
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:.45rem;
+}
+
+.field-full{
+  grid-column:1 / -1;
+}
+
+label{
+  font-size:.95rem;
+  font-weight:700;
+}
+
+input,
+textarea,
+select{
+  width:100%;
+  padding:1rem;
+  border:none;
+  border-radius:14px;
+  background:#f1f1f1;
+  color:#111;
+  font-size:1rem;
+  font-family:'Nunito', sans-serif;
+  outline:none;
+}
+
+textarea{
+  resize:none;
+  min-height:120px;
+}
+
+input::placeholder,
+textarea::placeholder{
+  color:#777;
+}
+
+.btn{
+  width:100%;
+  margin-top:1.5rem;
+  padding:1rem;
+  border:none;
+  border-radius:14px;
+  background:rgb(217, 24, 24);
+  color:#fff;
+  font-size:1rem;
+  font-weight:700;
+  font-family:'Nunito', sans-serif;
+  cursor:pointer;
+  transition:.2s ease;
+}
+
+.btn:hover{
+  transform:translateY(-2px);
+  background:#e41212;
+}
+
+.plans{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1rem;
+  margin-top:.5rem;
+}
+
+.plan-card{
+  background:#f4f4f4;
+  border:2px solid #e5e5e5;
+  border-radius:18px;
+  padding:1.25rem;
+  position:relative;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.plan-card:hover{
+  transform:translateY(-3px);
+}
+
+.plan-card.selected{
+  border-color:#ff0000;
+  background:#fff5f4;
+}
+
+.plan-card h3{
+  margin-bottom:.5rem;
+  color:#111;
+}
+
+.plan-price{
+  display:block;
+  font-size:1.5rem;
+  font-weight:800;
+  font-family:'Nunito', sans-serif;
+  margin-bottom:1rem;
+  color:#ff0000;
+}
+
+.plan-card ul{
+  list-style:none;
+  display:flex;
+  flex-direction:column;
+  gap:.55rem;
+  color:#444;
+  font-family:'Nunito', sans-serif;
+  font-size:.95rem;
+}
+
+.featured{
+  
+  transform:scale(1.03);
+  background:#fff;
+}
+
+.plan-badge{
+  position:absolute;
+  top:-10px;
+  right:15px;
+  background:#ff0000;
+  color:#fff;
+  font-size:.75rem;
+  font-family:'Nunito', sans-serif;
+  font-weight:700;
+  padding:.35rem .7rem;
+  border-radius:999px;
+}
+
+.upload-grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:1rem;
+  margin-top:.5rem;
+}
+
+.upload-box{
+  height:140px;
+  border:2px dashed #ff0000;
+  border-radius:20px;
+  background:#fafafa;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  cursor:pointer;
+  transition:.2s;
+  padding:1rem;
+  overflow:hidden;
+  position:relative;
+}
+
+.upload-box:hover{
+  background:#fff5f4;
+  transform:translateY(-3px);
+}
+
+.upload-box strong{
+  font-size:.95rem;
+  font-family:'Nunito', sans-serif;
+  color:#111;
+  z-index:2;
+}
+
+.upload-box input{
+  display:none;
+}
+
+.upload-cover{
+  border:2px solid rgb#ff0000;
+  background:#fff5f4;
+}
+
+.upload-preview{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+@media(max-width:900px){
+  .plans{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:700px){
+
+  body{
+    padding:1rem;
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .cadastro-box{
+    padding:1.5rem;
+  }
+
+  .upload-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .upload-box{
+    height:120px;
+  }
+
+}
+</style>
+
+</head>
+<body>
+  <a href="index.html" class="back-btn">← Voltar</a>
+
+  <div class="overlay"></div>
+
+  <div class="cadastro-box">
+
+    <img src="img/logo.jpeg" alt="ForteLocal" class="logo">
+
+    <h1>Cadastre sua loja</h1>
+    <p class="subtitle">
+      Faça parte do ForteLocal e venda para toda Caçapava do Sul.
+    </p>
+
+    <form>
+
+      <div class="form-grid">
+
+        <div class="field">
+          <label>Nome da loja</label>
+          <input type="text" placeholder="Ex: Padaria Modelo">
+        </div>
+
+        <div class="field">
+          <label>Categoria</label>
+          <select>
+            <option>Alimentação</option>
+            <option>Moda</option>
+            <option>Artesanato</option>
+            <option>Doces</option>
+            <option>Serviços</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Telefone</label>
+          <input type="tel" placeholder="(55) 99999-9999">
+        </div>
+
+        <div class="field">
+          <label>Instagram</label>
+          <input type="text" placeholder="@sualoja">
+        </div>
+
+        <div class="field">
+          <label>E-mail</label>
+          <input type="email" placeholder="contato@sualoja.com">
+        </div>
+
+        <div class="field">
+          <label>Forma de pagamento</label>
+          <select>
+            <option>PIX</option>
+            <option>Cartão</option>
+            <option>Dinheiro</option>
+            <option>PIX + Cartão</option>
+          </select>
+        </div>
+
+        <div class="field field-full">
+          <label>Endereço</label>
+          <input type="text" placeholder="Rua, bairro e referência">
+        </div>
+
+        <div class="field field-full">
+          <label>Descrição da loja</label>
+          <textarea placeholder="Descriçao da loja."></textarea>
+        </div>
+
+<div class="field field-full">
+  <label>Imagens da loja</label>
+
+  <div class="upload-grid">
+
+    <!-- CAPA -->
+    <label class="upload-box upload-cover">
+      <input type="file" accept="image/*">
+      <span></span>
+      <strong>Capa da Loja</strong>
+    </label>
+
+    <!-- FOTOS -->
+    <label class="upload-box">
+      <input type="file" accept="image/*">
+      <span></span>
+      <strong>Fotos da Loja</strong>
+    </label>
+
+    <label class="upload-box">
+      <input type="file" accept="image/*">
+      <span></span>
+      <strong>Fotos da Loja</strong>
+    </label>
+
+    <label class="upload-box">
+      <input type="file" accept="image/*">
+      <span></span>
+      <strong>Fotos da Loja</strong>
+    </label>
+
+    <label class="upload-box">
+      <input type="file" accept="image/*">
+      <span></span>
+      <strong>Fotos da Loja</strong>
+    </label>
+
+  </div>
+</div>
+
+        <div class="field field-full">
+          <label>Plano da loja</label>
+
+          <div class="plans">
+
+            <div class="plan-card">
+              <h3>Plano Básico</h3>
+              <span class="plan-price">R$ 19/mês</span>
+              <ul>
+                <li>✔ Loja no marketplace</li>
+                <li>✔ Até 10 produtos</li>
+                <li>✔ Chat com clientes</li>
+              </ul>
+            </div>
+
+            <div class="plan-card featured">
+              <div class="plan-badge">MAIS ESCOLHIDO</div>
+              <h3>Plano Destaque</h3>
+              <span class="plan-price">R$ 49/mês</span>
+              <ul>
+                <li>✔ Loja em destaque</li>
+                <li>✔ Produtos ilimitados</li>
+                <li>✔ Prioridade nas buscas</li>
+                <li>✔ Badge especial</li>
+              </ul>
+            </div>
+
+            <div class="plan-card">
+              <h3>Plano Premium</h3>
+              <span class="plan-price">R$ 89/mês</span>
+              <ul>
+                <li>✔ Banner na home</li>
+                <li>✔ Loja premium</li>
+                <li>✔ Divulgação nas redes</li>
+                <li>✔ Suporte prioritário</li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <button type="button" class="btn">
+        Cadastrar minha loja
+      </button>
+     <button type="button" class="cancel-btn" onclick="history.back()">
+  Cancelar
+</button>
+    </form>
+
+  </div>
+
+<script>
+/* PREVIEW DAS IMAGENS */
+document.querySelectorAll('.upload-box input').forEach(input => {
+
+  input.addEventListener('change', function(){
+
+    const file = this.files[0];
+    if(!file) return;
+
+    const box = this.parentElement;
+
+    const oldImg = box.querySelector('img');
+    if(oldImg) oldImg.remove();
+
+    const img = document.createElement('img');
+    img.className = 'upload-preview';
+    img.src = URL.createObjectURL(file);
+
+    box.prepend(img);
+  });
+
+});
+
+/* ESCOLHER PLANO */
+const plans = document.querySelectorAll('.plan-card');
+
+plans.forEach(plan => {
+
+  plan.addEventListener('click', () => {
+
+    plans.forEach(p => p.classList.remove('selected'));
+
+    plan.classList.add('selected');
+
+  });
+
+});
+
+/* plano de 49 selecionado */
+plans[1].classList.add('selected');
+</script>
+
+</body>
+</html>
+

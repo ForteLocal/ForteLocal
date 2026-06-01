@@ -1,0 +1,1890 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ForteLocal — Seu Comércio Local</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Lato:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --primary: #ff0000;
+    --primary-dark: #e41212;
+    --primary-light: #ff3e3e;
+    --bg: #EDEDED;
+    --card: #FFFFFF;
+    --text: #1a1a1a;
+    --text-muted: #6b7280;
+    --text-light: #9ca3af;
+    --border: #e5e7eb;
+    --shadow: 0 1px 4px rgba(0,0,0,0.10);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.12);
+    --radius: 10px;
+    --navbar-h: 60px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Lato', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+  /* NAVBAR */
+  .navbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    height: var(--navbar-h); background: var(--card);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center;
+    padding: 0 16px; gap: 10px;
+    box-shadow: var(--shadow);
+  }
+  .navbar-logo {
+    display: flex; align-items: center; gap: 8px;
+    text-decoration: none; flex-shrink: 0; cursor: pointer;
+  }
+  .navbar-logo .logo-icon {
+    width: 36px; height: 36px; background: var(--primary);
+    border-radius: 8px; display: flex; align-items: center; justify-content: center;
+  }
+  .navbar-logo .logo-icon i { color: #fff; font-size: 18px; }
+  .navbar-logo span {
+    font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 20px;
+    color: var(--primary-dark); letter-spacing: -0.5px;
+  }
+  .navbar-nav { display: flex; align-items: center; gap: 2px; flex-shrink: 0; }
+  .nav-link {
+    display: flex; align-items: center; gap: 6px;
+    padding: 7px 12px; border-radius: 8px;
+    font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700;
+    color: var(--text-muted); border: none; background: none; cursor: pointer;
+    transition: background .15s, color .15s; white-space: nowrap;
+  }
+  .nav-link:hover { background: #f3f4f6; color: var(--text); }
+  .nav-link.active { background: #fef2f2; color: var(--primary); }
+  .nav-link i { font-size: 13px; }
+  .search-wrap { flex: 1; max-width: 480px; position: relative; }
+  .search-wrap i {
+    position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+    color: var(--text-muted); font-size: 14px; pointer-events: none;
+  }
+  .search-wrap input {
+    width: 100%; padding: 9px 12px 9px 36px;
+    border: 1.5px solid var(--border); border-radius: 22px;
+    font-family: 'Lato', sans-serif; font-size: 14px;
+    background: var(--bg); outline: none; transition: border-color .2s;
+  }
+  .search-wrap input:focus { border-color: var(--primary); background: #fff; }
+  .navbar-actions { margin-left: auto; display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+  .btn-MinhaLoja {
+   background: none; color: var(--text); border: 1.5px solid var(--border);
+    border-radius: 22px; padding: 8px 16px; font-size: 13px; font-weight: 700;
+    cursor: pointer; transition: background .2s; white-space: nowrap;
+    font-family: 'Nunito', sans-serif; display: flex; align-items: center; gap: 6px;
+  }
+  .btn-MinhaLoja:hover { border-color: var(--primary); color: var(--primary); }
+  .btn-cadastrar-loja {
+    background: none; color: var(--text); border: 1.5px solid var(--border);
+    border-radius: 22px; padding: 7px 14px; font-size: 13px; font-weight: 700;
+    cursor: pointer; transition: all .2s; white-space: nowrap;
+    font-family: 'Nunito', sans-serif; display: flex; align-items: center; gap: 6px;
+  }
+  .btn-cadastrar-loja:hover { border-color: var(--primary); color: var(--primary); }
+
+  /* CART BTN */
+  .Sua-Loja{
+      position: relative; background: none; border: 1.5px solid var(--border);
+    border-radius: 22px; padding: 7px 14px; font-size: 13px; font-weight: 700;
+    cursor: pointer; transition: all .2s; white-space: nowrap;
+    font-family: 'Nunito', sans-serif; display: flex; align-items: center; gap: 6px;
+    color: var(--text);
+  }
+
+  .btn-cart {
+    position: relative; background: none; border: 1.5px solid var(--border);
+    border-radius: 22px; padding: 7px 14px; font-size: 13px; font-weight: 700;
+    cursor: pointer; transition: all .2s; white-space: nowrap;
+    font-family: 'Nunito', sans-serif; display: flex; align-items: center; gap: 6px;
+    color: var(--text);
+  }
+  .btn-cart:hover { border-color: var(--primary); color: var(--primary); }
+  .btn-cart.active { background: #fef2f2; border-color: var(--primary); color: var(--primary); }
+  .cart-badge {
+    position: absolute; top: -6px; right: -6px;
+    background: var(--primary); color: #fff; border-radius: 50%;
+    width: 18px; height: 18px; font-size: 10px; font-weight: 800;
+    display: none; align-items: center; justify-content: center;
+    font-family: 'Nunito', sans-serif;
+  }
+  .cart-badge.visible { display: flex; }
+
+  .btn-hamburger {
+    display: none; width: 36px; height: 36px; border-radius: 8px;
+    background: none; border: 1.5px solid var(--border);
+    cursor: pointer; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .btn-hamburger i { color: var(--text); font-size: 15px; }
+  .avatar-btn {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--primary); border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .avatar-btn i { color: #fff; font-size: 16px; }
+  .avatar-initial {
+    color: #fff; font-size: 14px; font-weight: 800;
+    font-family: 'Nunito', sans-serif; text-transform: uppercase; display: none;
+  }
+
+  /* PROFILE DROPDOWN */
+  .profile-dropdown {
+    display: none; position: fixed;
+    top: calc(var(--navbar-h) + 6px); right: 16px;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); box-shadow: var(--shadow-md);
+    width: 300px; z-index: 300; overflow: hidden;
+  }
+  .profile-dropdown.open { display: block; }
+  .profile-dropdown-header { background: var(--primary); color: #fff; padding: 16px 18px; }
+  .profile-name { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 16px; margin-bottom: 2px; }
+  .profile-email { font-size: 12px; opacity: .85; }
+  .profile-form { padding: 16px 18px; }
+  .profile-form label {
+    display: block; font-size: 11px; font-weight: 700;
+    color: var(--text-muted); text-transform: uppercase;
+    letter-spacing: .8px; margin-bottom: 4px; margin-top: 12px;
+  }
+  .profile-form label:first-child { margin-top: 0; }
+  .profile-form input {
+    width: 100%; padding: 8px 10px;
+    border: 1.5px solid var(--border); border-radius: 8px;
+    font-family: 'Lato', sans-serif; font-size: 14px;
+    outline: none; transition: border-color .2s;
+  }
+  .profile-form input:focus { border-color: var(--primary); }
+  .profile-form-actions { display: flex; gap: 8px; margin-top: 14px; }
+  .btn-save-profile {
+    flex: 1; background: var(--primary); color: #fff;
+    border: none; border-radius: 8px; padding: 9px 16px;
+    font-size: 13px; font-weight: 700; cursor: pointer;
+    transition: background .2s; font-family: 'Nunito', sans-serif;
+  }
+  .btn-save-profile:hover { background: var(--primary-dark); }
+  .btn-clear-profile {
+    background: none; color: var(--text-muted);
+    border: 1.5px solid var(--border); border-radius: 8px;
+    padding: 9px 14px; font-size: 13px; font-weight: 700;
+    cursor: pointer; transition: all .2s; font-family: 'Nunito', sans-serif;
+  }
+  .btn-clear-profile:hover { border-color: var(--primary); color: var(--primary); }
+
+  /* LAYOUT */
+  .layout { display: flex; padding-top: var(--navbar-h); min-height: 100vh; }
+
+  /* SIDEBAR */
+  .sidebar {
+    width: 220px; flex-shrink: 0;
+    background: var(--card); border-right: 1px solid var(--border);
+    padding: 20px 0; position: fixed;
+    top: var(--navbar-h); bottom: 0;
+    overflow-y: auto; z-index: 150;
+    transition: transform .25s ease;
+  }
+  .sidebar-title {
+    font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 11px;
+    letter-spacing: 1.2px; text-transform: uppercase; color: var(--text-muted);
+    padding: 0 18px 10px;
+  }
+  .cat-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 11px 18px; cursor: pointer; font-size: 14px; font-weight: 600;
+    color: var(--text); border-left: 3px solid transparent;
+    transition: background .15s, border-color .15s, color .15s; user-select: none;
+  }
+  .cat-item:hover { background: #fef2f2; color: var(--primary); border-color: var(--primary-light); }
+  .cat-item.active { background: #fef2f2; color: var(--primary); border-color: var(--primary); }
+  .cat-item i { width: 18px; text-align: center; font-size: 15px; }
+  .sidebar-divider { height: 1px; background: var(--border); margin: 12px 18px; }
+  .sidebar-overlay {
+    display: none; position: fixed; inset: 0; z-index: 140; background: rgba(0,0,0,.35);
+  }
+  .sidebar-overlay.open { display: block; }
+
+  /* MAIN */
+  .main { margin-left: 220px; flex: 1; padding: 0 0 40px; min-width: 0; }
+
+  /* BANNER */
+  .banner { position: relative; overflow: hidden; height: 260px; background: #111; margin-bottom: 28px; }
+  .banner-slide {
+    position: absolute; inset: 0; display: flex; align-items: flex-end;
+    opacity: 0; transition: opacity .65s ease; pointer-events: none;
+  }
+  .banner-slide.active { opacity: 1; pointer-events: auto; }
+  .banner-slide img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+  .banner-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.65) 0%, rgba(0,0,0,.08) 60%); }
+  .banner-content { position: relative; z-index: 2; padding: 20px 28px; color: #fff; }
+  .banner-tag {
+    display: inline-block; background: var(--primary); color: #fff;
+    font-family: 'Nunito', sans-serif; font-size: 10px; font-weight: 800;
+    letter-spacing: 1px; text-transform: uppercase;
+    padding: 3px 10px; border-radius: 4px; margin-bottom: 8px;
+  }
+  .banner-title { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 22px; line-height: 1.2; margin-bottom: 4px; }
+  .banner-sub { font-size: 13px; opacity: .88; }
+  .banner-dots { position: absolute; bottom: 14px; right: 20px; display: flex; gap: 6px; z-index: 3; }
+  .banner-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: rgba(255,255,255,.45); cursor: pointer;
+    transition: background .2s, transform .2s; border: none;
+  }
+  .banner-dot.active { background: #fff; transform: scale(1.2); }
+  .banner-arrow {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    z-index: 3; background: rgba(255,255,255,.18); border: none; color: #fff;
+    width: 36px; height: 36px; border-radius: 50%; cursor: pointer;
+    font-size: 14px; display: flex; align-items: center; justify-content: center;
+    transition: background .2s; backdrop-filter: blur(1px);
+  }
+  .banner-arrow:hover { background: rgba(255,255,255,.32); }
+  .banner-arrow.prev { left: 14px; }
+  .banner-arrow.next { right: 14px; }
+
+  /* HOME SECTIONS */
+  .home-inner { padding: 0 24px; }
+  .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .section-title { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 18px; color: var(--text); }
+  .section-link {
+    font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700;
+    color: var(--primary); cursor: pointer; background: none; border: none; transition: opacity .15s;
+  }
+  .section-link:hover { opacity: .75; }
+
+  /* CAROUSELS */
+  .carousel-wrap { position: relative; margin-bottom: 32px; }
+  .carousel-track-outer { overflow: hidden; border-radius: var(--radius); }
+  .carousel-track {
+    display: flex;
+    gap: 14px;
+    transition: transform .35s ease;
+    will-change: transform;
+  }
+  .carousel-btn {
+    position: absolute; top: 38%; transform: translateY(-50%);
+    z-index: 5; background: var(--card); border: 1px solid var(--border); color: var(--text);
+    width: 34px; height: 34px; border-radius: 50%; cursor: pointer; font-size: 13px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: var(--shadow-md); transition: background .15s, color .15s;
+  }
+  .carousel-btn:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+  .carousel-btn.prev { left: -14px; }
+  .carousel-btn.next { right: -14px; }
+  .carousel-btn:disabled { opacity: .3; pointer-events: none; }
+  .carousel-track .product-card { flex: 0 0 190px; min-width: 0; }
+  .store-card {
+    flex: 0 0 170px; min-width: 0; background: var(--card);
+    border-radius: var(--radius); border: 1px solid var(--border);
+    box-shadow: var(--shadow); padding: 18px 14px;
+    display: flex; flex-direction: column; align-items: center;
+    text-align: center; cursor: pointer; transition: transform .2s, box-shadow .2s;
+  }
+  .store-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+  .store-card-avatar {
+    width: 52px; height: 52px; border-radius: 50%; background: var(--primary); color: #fff;
+    display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 10px;
+  }
+  .store-card-name { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 13px; color: var(--text); margin-bottom: 4px; line-height: 1.3; }
+  .store-card-cat { font-size: 11px; color: var(--text-muted); font-weight: 600; }
+  .store-card-count { margin-top: 8px; font-size: 11px; color: var(--primary); font-weight: 700; }
+
+  /* PRODUCTS PAGE */
+  .products-page-inner { padding: 24px 24px 0; }
+  .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; flex-wrap: wrap; gap: 10px; }
+  .page-header h1 { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 22px; color: var(--text); }
+  .results-count { font-size: 13px; color: var(--text-muted); }
+  .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 16px; }
+  .product-card {
+    background: var(--card); border-radius: var(--radius); overflow: hidden;
+    box-shadow: var(--shadow); cursor: pointer;
+    transition: transform .2s, box-shadow .2s; border: 1px solid var(--border);
+  }
+  .product-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+  .card-img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; background: var(--bg); }
+  .card-body { padding: 12px; }
+  .card-category { font-size: 10px; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; color: var(--primary); margin-bottom: 4px; }
+  .card-name { font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 14px; color: var(--text); margin-bottom: 6px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .card-price { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 18px; color: var(--primary); margin-bottom: 6px; }
+  .card-store { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--text-muted); }
+  .card-store i { font-size: 11px; }
+  .empty { text-align: center; padding: 60px 20px; color: var(--text-muted); }
+  .empty i { font-size: 48px; margin-bottom: 16px; color: var(--border); }
+  .empty h3 { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 18px; margin-bottom: 6px; color: var(--text); }
+
+  /* DETAIL */
+  .back-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: none; border: none; cursor: pointer; font-size: 14px; font-weight: 700;
+    color: var(--text); padding: 0; margin-bottom: 20px;
+    font-family: 'Nunito', sans-serif; transition: color .15s;
+  }
+  .back-btn:hover { color: var(--primary); }
+  .detail-wrap {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 32px;
+    background: var(--card); border-radius: var(--radius); padding: 28px;
+    box-shadow: var(--shadow); border: 1px solid var(--border); max-width: 860px;
+  }
+  .detail-img-wrap { border-radius: 8px; overflow: hidden; background: var(--bg); aspect-ratio: 1; }
+  .detail-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .detail-info { display: flex; flex-direction: column; }
+  .detail-category { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--primary); margin-bottom: 8px; }
+  .detail-name { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 24px; line-height: 1.2; margin-bottom: 14px; }
+  .detail-price { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 32px; color: var(--primary); margin-bottom: 18px; }
+  .detail-divider { height: 1px; background: var(--border); margin-bottom: 18px; }
+  .detail-store-row { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
+  .store-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+  .store-info .store-label { font-size: 11px; color: var(--text-muted); }
+  .store-info .store-name { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 15px; }
+  .detail-desc-label { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 13px; margin-bottom: 8px; color: var(--text); }
+  .detail-desc { font-size: 14px; line-height: 1.7; color: var(--text-muted); margin-bottom: 18px; flex: 1; }
+
+  /* DETAIL ACTION BUTTONS */
+  .detail-actions { display: flex; flex-direction: column; gap: 10px; margin-top: auto; }
+  .btn-contact {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    background: var(--primary); color: #fff; border: none; border-radius: 8px;
+    padding: 14px 24px; font-size: 15px; font-weight: 700;
+    cursor: pointer; transition: background .2s; font-family: 'Nunito', sans-serif; width: 100%;
+  }
+  .btn-contact:hover { background: var(--primary-dark); }
+  .btn-add-cart {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    background: #fff; color: var(--primary); border: 2px solid var(--primary); border-radius: 8px;
+    padding: 12px 24px; font-size: 15px; font-weight: 700;
+    cursor: pointer; transition: all .2s; font-family: 'Nunito', sans-serif; width: 100%;
+  }
+  .btn-add-cart:hover { background: #fef2f2; }
+  .btn-ver-loja {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    background: none; color: var(--text-muted); border: 1.5px solid var(--border); border-radius: 8px;
+    padding: 10px 24px; font-size: 13px; font-weight: 700;
+    cursor: pointer; transition: all .2s; font-family: 'Nunito', sans-serif; width: 100%;
+  }
+  .btn-ver-loja:hover { border-color: var(--primary); color: var(--primary); }
+
+  /* MOBILE CHIPS */
+  .categories-mobile {
+    display: none; gap: 8px; overflow-x: auto;
+    padding: 10px 12px; background: var(--card);
+    border-bottom: 1px solid var(--border); scrollbar-width: none;
+  }
+  .categories-mobile::-webkit-scrollbar { display: none; }
+  .cat-chip {
+    display: flex; align-items: center; gap: 6px;
+    padding: 7px 14px; border-radius: 22px;
+    background: var(--bg); border: 1.5px solid var(--border);
+    font-size: 13px; font-weight: 700; white-space: nowrap;
+    cursor: pointer; transition: all .15s; flex-shrink: 0;
+    font-family: 'Nunito', sans-serif;
+  }
+  .cat-chip.active, .cat-chip:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+  /*  STORE PAGE  */
+  .store-page-inner { padding: 0 0 40px; }
+
+  /* Store Hero Banner */
+  .store-hero {
+    position: relative; height: 220px; background: #111; overflow: hidden;
+    margin-bottom: 0;
+  }
+  .store-hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+  .store-hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.7) 0%, rgba(0,0,0,.2) 60%); }
+  .store-hero-content {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 20px 28px; display: flex; align-items: flex-end; gap: 16px;
+  }
+  .store-hero-avatar {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: var(--primary); color: #fff; border: 3px solid #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px; flex-shrink: 0; box-shadow: 0 2px 12px rgba(0,0,0,.3);
+  }
+  .store-hero-text { color: #fff; }
+  .store-hero-name { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 22px; line-height: 1.2; margin-bottom: 4px; }
+  .store-hero-cat {
+    display: inline-block; background: var(--primary); color: #fff;
+    font-family: 'Nunito', sans-serif; font-size: 10px; font-weight: 800;
+    letter-spacing: 1px; text-transform: uppercase;
+    padding: 2px 8px; border-radius: 4px;
+  }
+
+  /* Store Body */
+  .store-body { padding: 24px 28px 0; }
+  .store-desc-box {
+    background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 18px 20px; margin-bottom: 28px; box-shadow: var(--shadow);
+  }
+  .store-desc-box p { font-size: 14px; line-height: 1.7; color: var(--text-muted); }
+
+  /* Store Gallery Carousel */
+  .store-gallery { margin-bottom: 32px; }
+  .store-gallery-title { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 17px; margin-bottom: 14px; }
+  .gallery-carousel { position: relative; }
+  .gallery-track-outer {
+    overflow: hidden; border-radius: var(--radius);
+    height: 200px; background: var(--bg);
+  }
+  .gallery-track {
+    display: flex; gap: 10px;
+    transition: transform .35s ease; height: 100%;
+  }
+  .gallery-item {
+    flex: 0 0 calc(33.33% - 7px); height: 100%;
+    border-radius: 8px; overflow: hidden;
+  }
+  .gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .gallery-btn {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    z-index: 5; background: var(--card); border: 1px solid var(--border); color: var(--text);
+    width: 34px; height: 34px; border-radius: 50%; cursor: pointer; font-size: 13px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: var(--shadow-md); transition: background .15s, color .15s;
+  }
+  .gallery-btn:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+  .gallery-btn.prev { left: -14px; }
+  .gallery-btn.next { right: -14px; }
+  .gallery-btn:disabled { opacity: .3; pointer-events: none; }
+
+  /* Store Featured Products */
+  .store-featured { margin-bottom: 28px; }
+  .store-section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .store-section-title { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 17px; }
+  .store-featured-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+
+  /* ALL STORES PAGE */
+  .stores-page-inner { padding: 24px 24px 0; }
+  .stores-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; margin-bottom: 40px; }
+  .store-list-card {
+    background: var(--card); border-radius: var(--radius); overflow: hidden;
+    box-shadow: var(--shadow); cursor: pointer;
+    transition: transform .2s, box-shadow .2s; border: 1px solid var(--border);
+  }
+  .store-list-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+  .store-list-banner { width: 100%; height: 100px; object-fit: cover; display: block; background: var(--bg); }
+  .store-list-body { padding: 14px; }
+  .store-list-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .store-list-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--primary); color: #fff;
+    display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0;
+  }
+  .store-list-name { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 14px; line-height: 1.3; }
+  .store-list-cat { font-size: 11px; color: var(--text-muted); font-weight: 600; margin-bottom: 6px; }
+  .store-list-count { font-size: 11px; color: var(--primary); font-weight: 700; }
+
+  /*  CART PAGE  */
+  .cart-page-inner { padding: 24px 24px 0; max-width: 900px; }
+  .cart-layout { display: grid; grid-template-columns: 1fr 340px; gap: 24px; align-items: start; }
+  .cart-items-box {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden;
+  }
+  .cart-items-header {
+    padding: 16px 20px; border-bottom: 1px solid var(--border);
+    font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 16px;
+  }
+  .cart-item {
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px 20px; border-bottom: 1px solid var(--border);
+  }
+  .cart-item:last-child { border-bottom: none; }
+  .cart-item-img {
+    width: 70px; height: 70px; border-radius: 8px; object-fit: cover;
+    background: var(--bg); flex-shrink: 0;
+  }
+  .cart-item-info { flex: 1; min-width: 0; }
+  .cart-item-name {
+    font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 14px;
+    margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .cart-item-store { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
+  .cart-item-price { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 16px; color: var(--primary); }
+  .cart-qty-row { display: flex; align-items: center; gap: 8px; }
+  .qty-btn {
+    width: 28px; height: 28px; border-radius: 6px;
+    border: 1.5px solid var(--border); background: var(--bg);
+    cursor: pointer; font-size: 14px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    transition: all .15s; color: var(--text); flex-shrink: 0;
+  }
+  .qty-btn:hover { border-color: var(--primary); color: var(--primary); background: #fef2f2; }
+  .qty-val {
+    font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 14px;
+    min-width: 24px; text-align: center;
+  }
+  .cart-item-remove {
+    background: none; border: none; cursor: pointer; color: var(--text-light);
+    font-size: 14px; padding: 6px; border-radius: 6px;
+    transition: color .15s, background .15s; flex-shrink: 0;
+  }
+  .cart-item-remove:hover { color: var(--primary); background: #fef2f2; }
+  .cart-summary {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); box-shadow: var(--shadow); padding: 22px;
+    position: sticky; top: calc(var(--navbar-h) + 16px);
+  }
+  .cart-summary-title { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 16px; margin-bottom: 16px; }
+  .summary-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 10px; color: var(--text-muted); }
+  .summary-row.total { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 18px; color: var(--text); margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
+  .btn-checkout {
+    width: 100%; background: var(--primary); color: #fff; border: none;
+    border-radius: 8px; padding: 14px; font-size: 15px; font-weight: 700;
+    cursor: pointer; transition: background .2s; font-family: 'Nunito', sans-serif;
+    margin-top: 16px; display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .btn-checkout:hover { background: var(--primary-dark); }
+  .btn-clear-cart {
+    width: 100%; background: none; color: var(--text-muted); border: 1.5px solid var(--border);
+    border-radius: 8px; padding: 10px; font-size: 13px; font-weight: 700;
+    cursor: pointer; transition: all .2s; font-family: 'Nunito', sans-serif; margin-top: 8px;
+  }
+  .btn-clear-cart:hover { border-color: var(--primary); color: var(--primary); }
+  .cart-empty { text-align: center; padding: 60px 20px; }
+  .cart-empty i { font-size: 52px; color: var(--border); margin-bottom: 16px; display: block; }
+  .cart-empty h3 { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 18px; margin-bottom: 8px; }
+  .cart-empty p { font-size: 14px; color: var(--text-muted); margin-bottom: 20px; }
+  .btn-start-shopping {
+    background: var(--primary); color: #fff; border: none; border-radius: 8px;
+    padding: 12px 24px; font-size: 14px; font-weight: 700;
+    cursor: pointer; font-family: 'Nunito', sans-serif; transition: background .2s;
+  }
+  .btn-start-shopping:hover { background: var(--primary-dark); }
+
+  /* PAGES */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* TOAST */
+  .toast {
+    position: fixed; bottom: 24px; left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: #1a1a1a; color: #fff; padding: 12px 22px; border-radius: 8px;
+    font-size: 14px; font-weight: 600; transition: transform .3s ease;
+    z-index: 999; pointer-events: none; font-family: 'Nunito', sans-serif; white-space: nowrap;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* RESPONSIVE TABLET */
+  @media (max-width: 960px) {
+    .btn-cadastrar-loja .btn-label { display: none; }
+    .navbar-nav .nav-link .nav-label { display: none; }
+    .navbar-nav .nav-link { padding: 7px 10px; }
+    .btn-cart .btn-label { display: none; }
+    .cart-layout { grid-template-columns: 1fr; }
+    .cart-summary { position: static; }
+    .store-featured-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+  }
+
+  /* RESPONSIVE MOBILE */
+  @media (max-width: 768px) {
+    .sidebar { transform: translateX(-100%); z-index: 160; }
+    .sidebar.open { transform: translateX(0); }
+    .main { margin-left: 0; }
+    .btn-hamburger { display: flex; }
+    .navbar-nav { display: none; }
+    .btn-cadastrar-loja { display: none; }
+    .btn-MinhaLoja .btn-label { display: none; }
+    .btn-MinhaLoja { padding: 0; border-radius: 50%; width: 36px; height: 36px; justify-content: center; }
+    .btn-cart { padding: 0; border-radius: 50%; width: 36px; height: 36px; justify-content: center; border-radius: 50%; }
+    .categories-mobile { display: flex; }
+    .banner { height: 200px; }
+    .banner-title { font-size: 17px; }
+    .home-inner { padding: 0 12px; }
+    .products-page-inner { padding: 14px 12px 0; }
+    .stores-page-inner { padding: 14px 12px 0; }
+    .cart-page-inner { padding: 14px 12px 0; }
+    .products-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .stores-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .carousel-track .product-card { flex: 0 0 150px; }
+    .store-card { flex: 0 0 150px; }
+    .carousel-btn.prev { left: -8px; }
+    .carousel-btn.next { right: -8px; }
+    .detail-wrap { grid-template-columns: 1fr; gap: 20px; padding: 16px; }
+    .detail-img-wrap { aspect-ratio: 4/3; }
+    .detail-name { font-size: 20px; }
+    .detail-price { font-size: 26px; }
+    .profile-dropdown { width: calc(100vw - 24px); right: 12px; }
+    .store-body { padding: 16px 16px 0; }
+    .store-hero-content { padding: 16px; }
+    .store-hero-name { font-size: 18px; }
+    .store-featured-grid { grid-template-columns: repeat(2, 1fr); }
+    .gallery-item { flex: 0 0 calc(80% - 7px); }
+    .gallery-track-outer { height: 160px; }
+    .cart-item-img { width: 56px; height: 56px; }
+    .cart-page-inner { max-width: none; }
+  }
+  @media (max-width: 480px) {
+    .navbar { gap: 7px; padding: 0 10px; }
+    .navbar-logo span { font-size: 17px; }
+    .banner-content { padding: 14px 16px; }
+    .section-title { font-size: 16px; }
+    .search-wrap { max-width: none; }
+    .stores-grid { grid-template-columns: 1fr; }
+    .store-featured-grid { grid-template-columns: 1fr 1fr; }
+  }
+  .logo {
+    width: 50px;
+    height: auto;
+    border-radius: 50px;
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <button class="btn-hamburger" id="btn-hamburger" aria-label="Menu">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <a class="navbar-logo" onclick="showPage('home'); return false;" href="#">
+    <img src="img/logo.jpeg" alt="ForteLocal" class="logo">
+    <span>ForteLocal</span>
+  </a>
+  <nav class="navbar-nav">
+    <button class="nav-link active" id="nav-home" onclick="showPage('home')">
+      <i class="fa-solid fa-house"></i><span class="nav-label">Inicio</span>
+    </button>
+    <button class="nav-link" id="nav-products" onclick="showPage('products')">
+      <i class="fa-solid fa-box"></i><span class="nav-label">Produtos</span>
+    </button>
+    <button class="nav-link" id="nav-stores" onclick="showPage('stores')">
+      <i class="fa-solid fa-store"></i><span class="nav-label">Lojas</span>
+    </button>
+  </nav>
+  <div class="search-wrap">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="text" id="search-input" placeholder="Buscar produtos, lojas..." autocomplete="off" />
+  </div>
+  <div class="navbar-actions">
+    <button class="btn-cadastrar-loja" onclick="window.location.href='cadastro.html'">
+      <i class="fa-solid fa-store"></i><span class="btn-label">Cadastrar Loja</span>
+    </button>
+    <button class="btn-MinhaLoja" onclick="showToast('Cadastre sua loja.')">
+      <i class="fa-solid fa-plus"></i><span class="btn-label">Minha Loja</span>
+    </button>
+    <button class="btn-cart" id="btn-cart-nav" onclick="showPage('cart')">
+      <i class="fa-solid fa-cart-shopping"></i><span class="btn-label">Carrinho</span>
+      <span class="cart-badge" id="cart-badge">0</span>
+    </button>
+    <button class="avatar-btn" id="avatar-btn" onclick="toggleProfile()" aria-label="Perfil">
+      <i class="fa-solid fa-user" id="avatar-icon"></i>
+      <span class="avatar-initial" id="avatar-initial"></span>
+    </button>
+  </div>
+</nav>
+
+<!--img-->
+<link rel="shortcut icon" type="imagex/png" href="./img/icon.ico">
+
+<!-- Profile Dropdown -->
+<div class="profile-dropdown" id="profile-dropdown">
+  <div class="profile-dropdown-header">
+    <div class="profile-name" id="profile-display-name">Meu Perfil</div>
+    <div class="profile-email" id="profile-display-email">Preencha seus dados abaixo</div>
+  </div>
+  <div class="profile-form">
+    <label>Nome</label>
+    <input type="text" id="pf-name" placeholder="Seu nome completo" />
+    <label>E-mail</label>
+    <input type="email" id="pf-email" placeholder="seu@email.com" />
+    <label>Telefone</label>
+    <input type="tel" id="pf-phone" placeholder="(00) 00000-0000" />
+    <div class="profile-form-actions">
+      <button class="btn-save-profile" onclick="saveProfile()">Salvar</button>
+      <button class="btn-clear-profile" onclick="clearProfile()">Sair</button>
+    </div>
+  </div>
+</div>
+
+<!-- Sidebar overlay -->
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<div class="layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+
+    <!-- Home sidebar -->
+    <div id="sidebar-home">
+      <div class="sidebar-title">Navegacao</div>
+      <div class="cat-item active" onclick="showPage('home'); closeSidebar()">
+        <i class="fa-solid fa-house"></i> Pagina Inicial
+      </div>
+      <div class="cat-item" onclick="showPage('products'); closeSidebar()">
+        <i class="fa-solid fa-box"></i> Produtos
+      </div>
+      <div class="cat-item" onclick="showPage('stores'); closeSidebar()">
+        <i class="fa-solid fa-store"></i> Todas as Lojas
+      </div>
+      <div class="cat-item" onclick="showPage('cart'); closeSidebar()">
+        <i class="fa-solid fa-cart-shopping"></i> Carrinho
+      </div>
+      <div class="sidebar-divider"></div>
+      <div class="sidebar-title">Secoes</div>
+      <div class="cat-item" onclick="scrollToSection('section-destaque'); closeSidebar()">
+        <i class="fa-solid fa-star"></i> Em Destaque
+      </div>
+      <div class="cat-item" onclick="scrollToSection('section-novos'); closeSidebar()">
+        <i class="fa-solid fa-clock-rotate-left"></i> Novos Produtos
+      </div>
+      <div class="cat-item" onclick="scrollToSection('section-lojas'); closeSidebar()">
+        <i class="fa-solid fa-store"></i> Lojas
+      </div>
+      <div class="sidebar-divider"></div>
+      <div class="sidebar-title">Sobre</div>
+      <div class="cat-item" onclick="window.location.href='Sobre.html'">
+        <i class="fa-solid fa-circle-info"></i> Sobre nos
+      </div>
+      <div class="cat-item" onclick="window.location.href='cadastro.html'">
+        <i class="fa-solid fa-bullhorn"></i> Cadastrar Loja
+      </div>
+    </div>
+
+    <!-- Products sidebar -->
+    <div id="sidebar-products" style="display:none">
+      <div class="sidebar-title">Navegacao</div>
+      <div class="cat-item" onclick="showPage('home'); closeSidebar()">
+        <i class="fa-solid fa-house"></i> Pagina Inicial
+      </div>
+      <div class="cat-item active" onclick="showPage('products'); closeSidebar()">
+        <i class="fa-solid fa-box"></i> Produtos
+      </div>
+      <div class="cat-item" onclick="showPage('stores'); closeSidebar()">
+        <i class="fa-solid fa-store"></i> Todas as Lojas
+      </div>
+      <div class="cat-item" onclick="showPage('cart'); closeSidebar()">
+        <i class="fa-solid fa-cart-shopping"></i> Carrinho
+      </div>
+      <div class="sidebar-divider"></div>
+      <div class="sidebar-title">Categorias</div>
+      <div class="cat-item active" data-cat="Todos" onclick="filterCat('Todos', this); closeSidebar()">
+        <i class="fa-solid fa-th-large"></i> Todos
+      </div>
+      <div class="cat-item" data-cat="Eletronicos" onclick="filterCat('Eletronicos', this); closeSidebar()">
+        <i class="fa-solid fa-mobile-screen-button"></i> Eletronicos
+      </div>
+      <div class="cat-item" data-cat="Roupas" onclick="filterCat('Roupas', this); closeSidebar()">
+        <i class="fa-solid fa-shirt"></i> Roupas
+      </div>
+      <div class="cat-item" data-cat="Veiculos" onclick="filterCat('Veiculos', this); closeSidebar()">
+        <i class="fa-solid fa-car"></i> Veiculos
+      </div>
+      <div class="cat-item" data-cat="Casa e decoração" onclick="filterCat('Casa e decoração', this); closeSidebar()">
+        <i class="fa-solid fa-couch"></i> Casa e decoração
+      </div>
+      <div class="cat-item" data-cat="Ferramentas" onclick="filterCat('Ferramentas', this); closeSidebar()">
+        <i class="fa-solid fa-screwdriver-wrench"></i> Ferramentas
+      </div>
+      <div class="cat-item" data-cat="Alimentacao" onclick="filterCat('Alimentacao', this); closeSidebar()">
+        <i class="fa-solid fa-utensils"></i> Alimentacao
+      </div>
+      <div class="sidebar-divider"></div>
+      <div class="sidebar-title">Sobre</div>
+      <div class="cat-item" onclick="window.location.href='Sobre.html'">
+        <i class="fa-solid fa-circle-info"></i> Sobre nos
+      </div>
+      <div class="cat-item" onclick="window.location.href='cadastro.html'">
+        <i class="fa-solid fa-bullhorn"></i> Cadastrar Loja
+      </div>
+    </div>
+
+    <!-- Stores sidebar -->
+    <div id="sidebar-stores" style="display:none">
+      <div class="sidebar-title">Navegacao</div>
+      <div class="cat-item" onclick="showPage('home'); closeSidebar()">
+        <i class="fa-solid fa-house"></i> Pagina Inicial
+      </div>
+      <div class="cat-item" onclick="showPage('products'); closeSidebar()">
+        <i class="fa-solid fa-box"></i> Produtos
+      </div>
+      <div class="cat-item active" onclick="showPage('stores'); closeSidebar()">
+        <i class="fa-solid fa-store"></i> Todas as Lojas
+      </div>
+      <div class="cat-item" onclick="showPage('cart'); closeSidebar()">
+        <i class="fa-solid fa-cart-shopping"></i> Carrinho
+      </div>
+      <div class="sidebar-divider"></div>
+      <div class="sidebar-title">Sobre</div>
+      <div class="cat-item" onclick="window.location.href='Sobre.html'">
+        <i class="fa-solid fa-circle-info"></i> Sobre nos
+      </div>
+      <div class="cat-item" onclick="window.location.href='cadastro.html'">
+        <i class="fa-solid fa-bullhorn"></i> Cadastrar Loja
+      </div>
+    </div>
+
+    <!-- Store detail sidebar -->
+    <div id="sidebar-store-detail" style="display:none">
+      <div class="sidebar-title">Navegacao</div>
+      <div class="cat-item" onclick="showPage('home'); closeSidebar()">
+        <i class="fa-solid fa-house"></i> Pagina Inicial
+      </div>
+      <div class="cat-item" onclick="showPage('products'); closeSidebar()">
+        <i class="fa-solid fa-box"></i> Produtos
+      </div>
+      <div class="cat-item" onclick="showPage('stores'); closeSidebar()">
+        <i class="fa-solid fa-store"></i> Todas as Lojas
+      </div>
+      <div class="cat-item" onclick="showPage('cart'); closeSidebar()">
+        <i class="fa-solid fa-cart-shopping"></i> Carrinho
+      </div>
+    </div>
+
+    <!-- Cart sidebar -->
+    <div id="sidebar-cart" style="display:none">
+      <div class="sidebar-title">Navegacao</div>
+      <div class="cat-item" onclick="showPage('home'); closeSidebar()">
+        <i class="fa-solid fa-house"></i> Pagina Inicial
+      </div>
+      <div class="cat-item" onclick="showPage('products'); closeSidebar()">
+        <i class="fa-solid fa-box"></i> Produtos
+      </div>
+      <div class="cat-item" onclick="showPage('stores'); closeSidebar()">
+        <i class="fa-solid fa-store"></i> Todas as Lojas
+      </div>
+      <div class="cat-item active" onclick="showPage('cart'); closeSidebar()">
+        <i class="fa-solid fa-cart-shopping"></i> Carrinho
+      </div>
+    </div>
+
+    <!-- Detail sidebar -->
+    <div id="sidebar-detail" style="display:none">
+      <div class="sidebar-title">Navegacao</div>
+      <div class="cat-item" onclick="showPage('home'); closeSidebar()">
+        <i class="fa-solid fa-house"></i> Pagina Inicial
+      </div>
+      <div class="cat-item" onclick="showPage('products'); closeSidebar()">
+        <i class="fa-solid fa-box"></i> Produtos
+      </div>
+      <div class="cat-item" onclick="showPage('stores'); closeSidebar()">
+        <i class="fa-solid fa-store"></i> Todas as Lojas
+      </div>
+      <div class="cat-item" onclick="showPage('cart'); closeSidebar()">
+        <i class="fa-solid fa-cart-shopping"></i> Carrinho
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- HOME PAGE -->
+    <div id="page-home" class="page active">
+      <div class="banner" id="banner">
+        <button class="banner-arrow prev" onclick="bannerMove(-1)" aria-label="Anterior"><i class="fa-solid fa-chevron-left"></i></button>
+        <button class="banner-arrow next" onclick="bannerMove(1)" aria-label="Proximo"><i class="fa-solid fa-chevron-right"></i></button>
+        <div class="banner-dots" id="banner-dots"></div>
+      </div>
+
+      <div class="categories-mobile" id="mobile-home-chips" style="display:none">
+        <div class="cat-chip" onclick="goToProductsCat('Todos')"><i class="fa-solid fa-th-large"></i> Todos</div>
+        <div class="cat-chip" onclick="goToProductsCat('Eletronicos')"><i class="fa-solid fa-mobile-screen-button"></i> Eletronicos</div>
+        <div class="cat-chip" onclick="goToProductsCat('Roupas')"><i class="fa-solid fa-shirt"></i> Roupas</div>
+        <div class="cat-chip" onclick="goToProductsCat('Veiculos')"><i class="fa-solid fa-car"></i> Veiculos</div>
+        <div class="cat-chip" onclick="goToProductsCat('Casa e decoração')"><i class="fa-solid fa-couch"></i> Casa</div>
+        <div class="cat-chip" onclick="goToProductsCat('Ferramentas')"><i class="fa-solid fa-screwdriver-wrench"></i> Ferramentas</div>
+        <div class="cat-chip" onclick="goToProductsCat('Alimentacao')"><i class="fa-solid fa-utensils"></i> Alimentacao</div>
+      </div>
+
+      <div class="home-inner">
+        <div id="section-destaque">
+          <div class="section-header">
+            <span class="section-title">Produtos em Destaque</span>
+            <button class="section-link" onclick="showPage('products')">Ver todos</button>
+          </div>
+          <div class="carousel-wrap">
+            <button class="carousel-btn prev" id="dest-prev" onclick="carouselMove('destaque',-1)"><i class="fa-solid fa-chevron-left"></i></button>
+            <div class="carousel-track-outer"><div class="carousel-track" id="carousel-destaque"></div></div>
+            <button class="carousel-btn next" id="dest-next" onclick="carouselMove('destaque',1)"><i class="fa-solid fa-chevron-right"></i></button>
+          </div>
+        </div>
+
+        <div id="section-novos">
+          <div class="section-header">
+            <span class="section-title">Produtos Novos</span>
+            <button class="section-link" onclick="showPage('products')">Ver todos</button>
+          </div>
+          <div class="carousel-wrap">
+            <button class="carousel-btn prev" id="novos-prev" onclick="carouselMove('novos',-1)"><i class="fa-solid fa-chevron-left"></i></button>
+            <div class="carousel-track-outer"><div class="carousel-track" id="carousel-novos"></div></div>
+            <button class="carousel-btn next" id="novos-next" onclick="carouselMove('novos',1)"><i class="fa-solid fa-chevron-right"></i></button>
+          </div>
+        </div>
+
+        <div id="section-lojas">
+          <div class="section-header">
+            <span class="section-title">Lojas em Destaque</span>
+            <button class="section-link" onclick="showPage('stores')">Ver todas</button>
+          </div>
+          <div class="carousel-wrap">
+            <button class="carousel-btn prev" id="lojas-prev" onclick="carouselMove('lojas',-1)"><i class="fa-solid fa-chevron-left"></i></button>
+            <div class="carousel-track-outer"><div class="carousel-track" id="carousel-lojas"></div></div>
+            <button class="carousel-btn next" id="lojas-next" onclick="carouselMove('lojas',1)"><i class="fa-solid fa-chevron-right"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRODUCTS PAGE -->
+    <div id="page-products" class="page">
+      <div class="categories-mobile" id="mobile-cats">
+        <div class="cat-chip active" data-cat="Todos" onclick="filterCatMobile('Todos',this)"><i class="fa-solid fa-th-large"></i> Todos</div>
+        <div class="cat-chip" data-cat="Eletronicos" onclick="filterCatMobile('Eletronicos',this)"><i class="fa-solid fa-mobile-screen-button"></i> Eletronicos</div>
+        <div class="cat-chip" data-cat="Roupas" onclick="filterCatMobile('Roupas',this)"><i class="fa-solid fa-shirt"></i> Roupas</div>
+        <div class="cat-chip" data-cat="Veiculos" onclick="filterCatMobile('Veiculos',this)"><i class="fa-solid fa-car"></i> Veiculos</div>
+        <div class="cat-chip" data-cat="Casa e decoração" onclick="filterCatMobile('Casa e decoração',this)"><i class="fa-solid fa-couch"></i> Casa</div>
+        <div class="cat-chip" data-cat="Ferramentas" onclick="filterCatMobile('Ferramentas',this)"><i class="fa-solid fa-screwdriver-wrench"></i> Ferramentas</div>
+        <div class="cat-chip" data-cat="Alimentacao" onclick="filterCatMobile('Alimentacao',this)"><i class="fa-solid fa-utensils"></i> Alimentacao</div>
+      </div>
+      <div class="products-page-inner">
+        <div class="page-header">
+          <h1 id="page-title">Todos os Produtos</h1>
+          <span class="results-count" id="results-count"></span>
+        </div>
+        <div class="products-grid" id="grid"></div>
+      </div>
+    </div>
+
+    <!-- DETAIL PAGE -->
+    <div id="page-detail" class="page">
+      <div class="products-page-inner">
+        <button class="back-btn" id="detail-back-btn">
+          <i class="fa-solid fa-arrow-left"></i> Voltar
+        </button>
+        <div class="detail-wrap">
+          <div class="detail-img-wrap"><img id="d-img" src="" alt="" /></div>
+          <div class="detail-info">
+            <div class="detail-category" id="d-cat"></div>
+            <div class="detail-name" id="d-name"></div>
+            <div class="detail-price" id="d-price"></div>
+            <div class="detail-divider"></div>
+            <div class="detail-store-row">
+              <div class="store-avatar"><i class="fa-solid fa-store"></i></div>
+              <div class="store-info">
+                <div class="store-label">Vendido por</div>
+                <div class="store-name" id="d-store"></div>
+              </div>
+            </div>
+            <div class="detail-desc-label">Descricao</div>
+            <div class="detail-desc" id="d-desc"></div>
+            <div class="detail-actions">
+              <button class="btn-add-cart" id="d-btn-cart" onclick="addToCartFromDetail()">
+                <i class="fa-solid fa-cart-shopping"></i> Adicionar ao Carrinho
+              </button>
+              <button class="btn-contact" onclick="showToast('Abrindo WhatsApp da loja...')">
+                <i class="fa-brands fa-whatsapp"></i> Entrar em contato
+              </button>
+              <button class="btn-ver-loja" id="d-btn-ver-loja">
+                <i class="fa-solid fa-store"></i> Ver loja
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ALL STORES PAGE -->
+    <div id="page-stores" class="page">
+      <div class="stores-page-inner">
+        <div class="page-header">
+          <h1>Todas as Lojas</h1>
+          <span class="results-count" id="stores-count"></span>
+        </div>
+        <div class="stores-grid" id="stores-grid"></div>
+      </div>
+    </div>
+
+    <!-- STORE DETAIL PAGE -->
+    <div id="page-store-detail" class="page">
+      <div class="store-page-inner">
+        <div style="padding: 20px 28px 0;">
+          <button class="back-btn" id="store-back-btn">
+            <i class="fa-solid fa-arrow-left"></i> Voltar para Lojas
+          </button>
+        </div>
+        <div class="store-hero" id="sd-hero">
+          <img class="store-hero-img" id="sd-hero-img" src="" alt="" />
+          <div class="store-hero-overlay"></div>
+          <div class="store-hero-content">
+            <div class="store-hero-avatar" id="sd-avatar"><i class="fa-solid fa-store"></i></div>
+            <div class="store-hero-text">
+              <div class="store-hero-name" id="sd-name"></div>
+              <span class="store-hero-cat" id="sd-cat"></span>
+            </div>
+          </div>
+        </div>
+        <div class="store-body">
+          <div class="store-desc-box">
+            <p id="sd-desc"></p>
+          </div>
+
+          <div class="store-gallery">
+            <div class="store-section-header">
+              <span class="store-section-title">Imagens da loja</span>
+            </div>
+            <div class="gallery-carousel">
+              <button class="gallery-btn prev" id="gallery-prev" onclick="galleryMove(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+              <div class="gallery-track-outer">
+                <div class="gallery-track" id="gallery-track"></div>
+              </div>
+              <button class="gallery-btn next" id="gallery-next" onclick="galleryMove(1)"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+          </div>
+
+          <div class="store-featured">
+            <div class="store-section-header">
+              <span class="store-section-title">Produtos em Destaque</span>
+              <button class="section-link" id="sd-ver-todos-btn">Ver todos</button>
+            </div>
+            <div class="store-featured-grid" id="sd-featured-grid"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CART PAGE -->
+    <div id="page-cart" class="page">
+      <div class="cart-page-inner">
+        <div class="page-header">
+          <h1>Carrinho de Compras</h1>
+          <span class="results-count" id="cart-items-count"></span>
+        </div>
+        <div id="cart-content"></div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ==========================================================
+//  DATA
+// ==========================================================
+
+// ----------------------------------------------------------------
+// PRODUTOS
+// Troque os campos "img" pelos nomes dos arquivos em img/
+// Exemplo: img:'img/samsung-a05.jpg'
+// ----------------------------------------------------------------
+var products = [
+  {id:1, name:'A05 Samsung', category:'Eletronicos', price:699, store:'TechCell Informatica',
+   img:'img/img/a05.jpeg',
+   desc:'A05 Samsung funcionando perfeitamente, acompanha caixa, carregador e fone, 6 meses de garantia', featured:false},
+
+  {id:2, name:'Notebook Acer Nitro 5', category:'Eletronicos', price:1099, store:'InfoMaquinas Ltda',
+   img:'img/img/not.jpg',
+   desc:'Notebook Acer Nitro 5 com processador Intel Core i5, 16GB de RAM e SSD 256GB. Sistema Windows 11 original. Ideal para uso escolar e trabalho no dia a dia.', featured:false},
+
+  {id:3, name:'Camiseta/Bermuda', category:'Roupas', price:40, store:'Moda Central',
+   img:'img/img/Roupa.jpeg',
+   desc:'Camiseta/Bermuda 100% algodao, corte regular fit, disponivel nos tamanhos P, M, G e GG. Cores: branco, preto, cinza e vinho. Confortavel para o dia a dia.', featured:false},
+
+  {id:4, name:'Tenis Esportivo Running', category:'Alimentacao', price:179, store:'SportFlex Calcados',
+   img:'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80',
+   desc:'Tenis para corrida com amortecimento de alta performance, solado antiderrapante e cabedal em mesh respiravel. Numeracao 38 ao 44.', featured:true},
+
+  {id:5, name:'Vaso Florido', category:'Casa e decoração', price:250, store:'Casa & Conforto Moveis',
+   img:'img/img/vaso.jpeg',
+   desc:'Vaso feito e esculpido a mão ceramica, vendo por 250.', featured:true},
+
+  {id:6, name:'Bicicleta Mountain Bike Aro 29', category:'Alimentacao', price:1200, store:'Ciclo Sport',
+   img:'img/img/bike1.jpg',
+   desc:'Bicicleta aro 29 com quadro em aluminio, 21 marchas, freios a disco mecanico e suspensao dianteira. Usada por apenas 6 meses, excelente estado de conservacao.', featured:false},
+
+  {id:7, name:'Honda Civic 2019 — Touring', category:'Veiculos', price:105000, store:'AutoPrime Veiculos',
+   img:'img/img/carro1.jpg',
+   desc:'Honda Civic Touring 1.5 Turbo, cambio CVT automatico, unico dono, revisoes feitas na concessionaria. 48.000 km rodados. IPVA 2026 pago. Aceita financiamento. 3 Meses de garantía', featured:false},
+
+  {id:8, name:'Parafusadeira - 6 Meses garantía.', category:'Ferramentas', price:289, store:'Ferragem Central',
+   img:'img/img/parafusadeira.jpg',
+   desc:'Furadeira de impacto 750W com velocidade variavel e reversivel, chuck de 13mm e maleta de acrilico. Acompanha 10 brocas e 2 bits.', featured:false},
+
+  {id:9, name:'Samsung Galaxy A54 — 256GB', category:'Eletronicos', price:1799, store:'TechCell Informatica',
+   img:'img/img/a54.jpg',
+   desc:'Celular Samsung Galaxy A54 5G, tela Super AMOLED 6.4 pol., camera tripla 50MP, bateria 5000mAh e carregamento rapido 25W. Lacrado na caixa com nota fiscal.', featured:false},
+
+  {id:10, name:'Conjunto Ferramentas 68 pecas', category:'Ferramentas', price:189, store:'Ferragem Central',
+   img:'img/img/pecas.jpg',
+   desc:'Kit completo com 68 pecas incluindo chaves combinadas, alicate, martelo, nivel, fita metrica e muito mais. Maleta de polipropileno resistente.', featured:false},
+
+  {id:11, name:'Queijo Fresco', category:'Alimentação', price:29.90, store:'Padaria Cantinho',
+   img:'img/img/Queijo.jpeg',
+   desc:'Queijo chegou, vendo fresquinho e pronto para comer, vendo até sexta.', featured:true},
+
+  {id:12, name:'Toyota Hilux 2020 — SRV', category:'Veiculos', price:195000, store:'AutoPrime Veiculos',
+   img:'img/img/carro2.jpg',
+   desc:'Hilux SRV 4x4 diesel automatica, interior de couro, camera de re, controle de tracao e freios ABS. 62.000 km. Revisada. IPVA em dia. 3 Meses de garantía.', featured:false},
+   
+   {id:13, name:'Mandioca', category:'Alimentação', price:15, store:'Padaria Cantinho',
+   img:'img/img/Mandioca.jpeg',
+   desc:'R$15,00 KG', featured:false},
+
+   {id:14, name:'Salame', category:'Alimentação', price:20, store:'Padaria Cantinho',
+   img:'img/img/Salame.jpeg',
+   desc:'R$20,00 Peça', featured:false},
+
+      {id:15, name:'Chaveiro Personalizado', category:'Casa e decoração', price:20, store:'Casa & Conforto Moveis',
+   img:'img/img/chaveiro.jpeg',
+   desc:'Chaveiro personalizado, presenteie para seu parente ou amigo, R$30,00 A Peça', featured:true},
+
+         {id:16, name:'Pano Trico Flor', category:'Casa e decoração', price:30, store:'Casa & Conforto Moveis',
+   img:'img/img/costura1.jpeg',
+   desc:'Pano trico Flor, perfeito para decoração de hacks, mesas etc...', featured:true},
+
+            {id:17, name:'Cesto', category:'Casa e decoração', price:40, store:'Casa & Conforto Moveis',
+   img:'img/img/cesto.jpeg',
+   desc:'Faço cesto personalizado, vendo estou com 5 ja feitos, é feito com palha de madeira', featured:false},
+
+               {id:17, name:'Trico personalizado', category:'Casa e decoração', price:50, store:'Casa & Conforto Moveis',
+   img:'img/img/panoPintura.jpeg',
+   desc:'Faço trico personalizado, eu faço trico em pano 50x50, cada 10x é 10 reais', featured:true},
+
+];
+
+// ----------------------------------------------------------------
+// BANNERS DA HOME
+// Troque "img" pelo nome do arquivo em img/
+// Exemplo: img:'img/banner1.jpg'
+// Tamanho recomendado: 1200x500px (horizontal)
+// ----------------------------------------------------------------
+var bannerSlides = [
+  {img:'img/img/Banner_1.jpg',
+   tag:'Novidades', title:'Explore os melhores produtos locais de Cacapava do sul', sub:'Alimentos, produtos artesanais e muito mais!'},
+
+  {img:'img/img/Banner_2.jpeg',
+   tag:'Moda', title:'Contribua para sua cidade', sub:'Cacapava do Sul - RS'},
+
+  {img:'img/img/Banner_3.jpeg',
+   tag:'Veiculos', title:'Seu desejo esta aqui!', sub:'Ajude o comercio do lado da sua casa'},
+
+  {img:'img/img/Banner_4.jpg',
+   tag:'Casa', title:'Monte seu lar dos sonhos', sub:'Moveis e decoração direto de Cacapava do sul'}
+];
+
+// ----------------------------------------------------------------
+// DADOS DAS LOJAS
+// Troque os campos "banner" e cada item de "gallery" por arquivos em img/
+// Exemplo: banner:'img/loja-techcell-banner.jpg'
+// ----------------------------------------------------------------
+var storesMeta = [
+   {
+    name:'TechCell Informatica', icon:'fa-solid fa-mobile-screen-button', cat:'Eletronicos',
+    desc:'Especialistas em eletronicos e smartphones. Trabalhamos com as melhores marcas do mercado, oferecendo garantia e suporte tecnico para todos os produtos.',
+    // banner da loja (topo da pagina e card na listagem)
+    banner:'https://images.unsplash.com/photo-1678685888221-cda773a3dcdb?w=1200&q=80',
+    // galeria de imagens da loja (4 fotos no carrossel)
+    gallery:[
+      'https://images.unsplash.com/photo-1678685888221-cda773a3dcdb?w=800&q=80',
+      'https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=800&q=80',
+      'https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=800&q=80',
+      'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80'
+    ]
+  },
+
+  // ---- LOJA: InfoMaquinas Ltda ----
+  {
+    name:'InfoMaquinas Ltda', icon:'fa-solid fa-laptop', cat:'Eletronicos',
+    desc:'Venda e manutencao de computadores, notebooks e perifericos. Atendimento especializado para empresas e pessoas fisicas.',
+    banner:'https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=1200&q=80',
+    gallery:[
+      'https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=800&q=80',
+      'https://images.unsplash.com/photo-1678685888221-cda773a3dcdb?w=800&q=80',
+      'https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=800&q=80',
+      'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80'
+    ]
+  },
+
+  // ---- LOJA: Moda Central ----
+  {
+    name:'Moda Central', icon:'fa-solid fa-shirt', cat:'Roupas',
+    desc:'Tudo em moda masculina e feminina. Roupas casuais, sociais e esportivas com preco justo e qualidade garantida.',
+    banner:'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=1200&q=80',
+    gallery:[
+      'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800&q=80',
+      'https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=800&q=80',
+      'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&q=80',
+      'https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=800&q=80'
+    ]
+  },
+
+ 
+  {
+    name:'Padaria Cantinho', icon:'fa-solid fa-heart', cat:'Alimentação',
+    desc:'Padaria feita para alegrar sua manhã, pão novo todo sabado/segunda/quarta/sexta.',
+    banner:'https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=1200&q=80',
+    gallery:[
+      'https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=800&q=80',
+      'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800&q=80',
+      'https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=800&q=80',
+      'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80'
+    ]
+  },
+
+  // ---- LOJA: SportFlex Calcados ----
+  {
+    name:'SportFlex Calcados', icon:'fa-solid fa-dumbbell', cat:'Esportes',
+    desc:'Calcados e acessorios esportivos das melhores marcas nacionais e importadas. Atendemos atletas amadores e profissionais.',
+    banner:'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1200&q=80',
+    gallery:[
+      'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&q=80',
+      'https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?w=800&q=80',
+      'https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=800&q=80',
+      'https://images.unsplash.com/photo-1504148455328-c376907d081c?w=800&q=80'
+    ]
+  },
+
+  // ---- LOJA: Ciclo Sport ----
+  {
+    name:'Ciclo Sport', icon:'fa-solid fa-bicycle', cat:'Esportes',
+    desc:'Loja especializada em bicicletas, pecas e acessorios para ciclismo. Consertamos e montamos bikes de todas as marcas.',
+    banner:'https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?w=1200&q=80',
+    gallery:[
+      'https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?w=800&q=80',
+      'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&q=80',
+      'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80',
+      'https://images.unsplash.com/photo-1504148455328-c376907d081c?w=800&q=80'
+    ]
+  },
+
+  // ---- LOJA: AutoPrime Veiculos ----
+  {
+    name:'AutoPrime Veiculos', icon:'fa-solid fa-car', cat:'Veiculos',
+    desc:'Concessionaria multimarcas com os melhores veiculos seminovos da regiao. Financiamento facilitado, aceite de troca e garantia em todas as vendas.',
+    banner:'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=1200&q=80',
+    gallery:[
+      'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=800&q=80',
+      'https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=800&q=80',
+      'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800&q=80',
+      'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80'
+    ]
+  },
+
+  // ---- LOJA: Ferragem Central ----
+  {
+    name:'Ferragem Central', icon:'fa-solid fa-screwdriver-wrench', cat:'Ferramentas',
+    desc:'Ferramentas, materiais de construcao e equipamentos para profissionais e autonomos. Atendemos obras e reformas de todos os portes.',
+    banner:'https://images.unsplash.com/photo-1504148455328-c376907d081c?w=1200&q=80',
+    gallery:[
+      'https://images.unsplash.com/photo-1504148455328-c376907d081c?w=800&q=80',
+      'https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=800&q=80',
+      'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80',
+      'https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=800&q=80'
+    ]
+  },
+
+  // ---- LOJA: Casa & Conforto Moveis ----
+  {
+    name:'Casa & Conforto Moveis', icon:'fa-solid fa-couch', cat:'Casa e Decoracao',
+    desc:'Moveis planejados e de linha para todos os ambientes. Sala, quarto, cozinha e escritorio com design moderno e materiais de qualidade.',
+    banner:'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=1200&q=80',
+    gallery:[
+      'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80',
+      'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80',
+      'https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=800&q=80',
+      'https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=800&q=80'
+    ]
+  }
+];
+
+
+// ==========================================================
+//  STATE
+// ==========================================================
+var currentCat = 'Todos';
+var currentSearch = '';
+var currentPage = 'home';
+var prevPage = 'home';
+var currentDetailProductId = null;
+var bannerIdx = 0;
+var bannerTimer = null;
+var galleryIdx = 0;
+var carouselState = {
+  destaque: {idx:0},
+  novos:    {idx:0},
+  lojas:    {idx:0}
+};
+
+// CART STATE
+var cart = [];
+try { cart = JSON.parse(localStorage.getItem('fl_cart') || '[]'); } catch(e){ cart = []; }
+
+// ==========================================================
+//  HELPERS
+// ==========================================================
+function fmt(price) {
+  return price.toLocaleString('pt-BR', {style:'currency', currency:'BRL'});
+}
+
+function saveCart() {
+  try { localStorage.setItem('fl_cart', JSON.stringify(cart)); } catch(e) {}
+  updateCartBadge();
+}
+
+function updateCartBadge() {
+  var total = cart.reduce(function(s, i){ return s + i.qty; }, 0);
+  var badge = document.getElementById('cart-badge');
+  var navBtn = document.getElementById('btn-cart-nav');
+  badge.textContent = total;
+  if (total > 0) {
+    badge.classList.add('visible');
+    navBtn.classList.add('active');
+  } else {
+    badge.classList.remove('visible');
+    navBtn.classList.remove('active');
+  }
+}
+
+function getStoreMeta(storeName) {
+  for (var i = 0; i < storesMeta.length; i++) {
+    if (storesMeta[i].name === storeName) return storesMeta[i];
+  }
+  return null;
+}
+
+// ==========================================================
+//  PAGE NAV
+// ==========================================================
+function showPage(page) {
+  prevPage = currentPage;
+  currentPage = page;
+  document.querySelectorAll('.page').forEach(function(el){ el.classList.remove('active'); });
+  document.getElementById('page-'+page).classList.add('active');
+
+  var isProducts = page === 'products' || page === 'detail';
+  document.getElementById('nav-home').classList.toggle('active', page === 'home');
+  document.getElementById('nav-products').classList.toggle('active', isProducts);
+  document.getElementById('nav-stores').classList.toggle('active', page === 'stores' || page === 'store-detail');
+
+  var panels = ['home','products','stores','store-detail','cart','detail'];
+  panels.forEach(function(p) {
+    var el = document.getElementById('sidebar-'+p);
+    if (el) el.style.display = (p === page) ? '' : 'none';
+  });
+
+  if (window.innerWidth <= 768) {
+    document.getElementById('mobile-home-chips').style.display = page === 'home' ? 'flex' : 'none';
+    document.getElementById('mobile-cats').style.display = page === 'products' ? 'flex' : 'none';
+  }
+
+  closeSidebar();
+  window.scrollTo({top:0, behavior:'smooth'});
+
+  if (page === 'products') applyFilters();
+  if (page === 'stores') renderStoresGrid();
+  if (page === 'cart') renderCart();
+}
+
+function scrollToSection(id) {
+  var el = document.getElementById(id);
+  if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function goToProductsCat(cat) {
+  currentCat = cat;
+  showPage('products');
+  syncCatUI();
+  applyFilters();
+}
+
+// ==========================================================
+//  SIDEBAR
+// ==========================================================
+document.getElementById('btn-hamburger').addEventListener('click', function(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebar-overlay').classList.toggle('open');
+});
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebar-overlay').classList.remove('open');
+}
+
+// ==========================================================
+//  PROFILE
+// ==========================================================
+function loadProfile() {
+  try {
+    var data = JSON.parse(localStorage.getItem('fl_profile')||'{}');
+    if (data.name) {
+      document.getElementById('pf-name').value  = data.name  || '';
+      document.getElementById('pf-email').value = data.email || '';
+      document.getElementById('pf-phone').value = data.phone || '';
+      document.getElementById('profile-display-name').textContent  = data.name;
+      document.getElementById('profile-display-email').textContent = data.email || 'Perfil salvo';
+      document.getElementById('avatar-icon').style.display    = 'none';
+      document.getElementById('avatar-initial').style.display = '';
+      document.getElementById('avatar-initial').textContent   = data.name.charAt(0);
+    }
+  } catch(e){}
+}
+function saveProfile() {
+  var name  = document.getElementById('pf-name').value.trim();
+  var email = document.getElementById('pf-email').value.trim();
+  var phone = document.getElementById('pf-phone').value.trim();
+  if (!name) { showToast('Informe seu nome para salvar o perfil'); return; }
+  try { localStorage.setItem('fl_profile', JSON.stringify({name:name, email:email, phone:phone})); } catch(e){}
+  loadProfile();
+  showToast('Perfil salvo com sucesso!');
+  closeProfile();
+}
+function clearProfile() {
+  try { localStorage.removeItem('fl_profile'); } catch(e){}
+  document.getElementById('pf-name').value  = '';
+  document.getElementById('pf-email').value = '';
+  document.getElementById('pf-phone').value = '';
+  document.getElementById('profile-display-name').textContent  = 'Meu Perfil';
+  document.getElementById('profile-display-email').textContent = 'Preencha seus dados abaixo';
+  document.getElementById('avatar-icon').style.display    = '';
+  document.getElementById('avatar-initial').style.display = 'none';
+  showToast('Perfil removido');
+  closeProfile();
+}
+function toggleProfile() {
+  document.getElementById('profile-dropdown').classList.toggle('open');
+}
+function closeProfile() {
+  document.getElementById('profile-dropdown').classList.remove('open');
+}
+document.addEventListener('click', function(e){
+  var dd  = document.getElementById('profile-dropdown');
+  var btn = document.getElementById('avatar-btn');
+  if (!dd.contains(e.target) && !btn.contains(e.target)) closeProfile();
+});
+
+// ==========================================================
+//  BANNER
+// ==========================================================
+function buildBanner() {
+  var banner = document.getElementById('banner');
+  var dotsEl = document.getElementById('banner-dots');
+  bannerSlides.forEach(function(s, i){
+    var slide = document.createElement('div');
+    slide.className = 'banner-slide'+(i===0?' active':'');
+    slide.innerHTML =
+      '<img src="'+s.img+'" alt="'+s.title+'" loading="'+(i===0?'eager':'lazy')+'" />'+
+      '<div class="banner-overlay"></div>'+
+      '<div class="banner-content">'+
+        '<div class="banner-tag">'+s.tag+'</div>'+
+        '<div class="banner-title">'+s.title+'</div>'+
+        '<div class="banner-sub">'+s.sub+'</div>'+
+      '</div>';
+    banner.insertBefore(slide, banner.querySelector('.banner-arrow'));
+    var dot = document.createElement('button');
+    dot.className = 'banner-dot'+(i===0?' active':'');
+    dot.setAttribute('aria-label','Slide '+(i+1));
+    (function(idx){ dot.addEventListener('click', function(){ clearTimeout(bannerTimer); goToBanner(idx); startBannerTimer(); }); })(i);
+    dotsEl.appendChild(dot);
+  });
+  startBannerTimer();
+}
+function goToBanner(idx) {
+  var slides = document.querySelectorAll('.banner-slide');
+  var dots   = document.querySelectorAll('.banner-dot');
+  slides[bannerIdx].classList.remove('active');
+  dots[bannerIdx].classList.remove('active');
+  bannerIdx = ((idx%bannerSlides.length)+bannerSlides.length)%bannerSlides.length;
+  slides[bannerIdx].classList.add('active');
+  dots[bannerIdx].classList.add('active');
+}
+function bannerMove(dir) { clearTimeout(bannerTimer); goToBanner(bannerIdx+dir); startBannerTimer(); }
+function startBannerTimer() {
+  clearTimeout(bannerTimer);
+  bannerTimer = setTimeout(function(){ goToBanner(bannerIdx+1); startBannerTimer(); }, 4500);
+}
+
+// ==========================================================
+//  PRODUCT CAROUSELS
+// ==========================================================
+function cardHTML(p) {
+  return '<div class="product-card" onclick="openDetail('+p.id+')">'+
+    '<img class="card-img" src="'+p.img+'" alt="'+p.name+'" loading="lazy" />'+
+    '<div class="card-body">'+
+      '<div class="card-category">'+p.category+'</div>'+
+      '<div class="card-name">'+p.name+'</div>'+
+      '<div class="card-price">'+fmt(p.price)+'</div>'+
+      '<div class="card-store"><i class="fa-solid fa-store"></i> '+p.store+'</div>'+
+    '</div></div>';
+}
+
+function buildCarousels() {
+  var featured = products.filter(function(p){ return p.featured; });
+  var newest   = products.slice().reverse().slice(0,8);
+  document.getElementById('carousel-destaque').innerHTML = featured.map(cardHTML).join('');
+  document.getElementById('carousel-novos').innerHTML    = newest.map(cardHTML).join('');
+  var lojaTrack = document.getElementById('carousel-lojas');
+  lojaTrack.innerHTML = storesMeta.map(function(s){
+    var count = products.filter(function(p){ return p.store===s.name; }).length;
+    return '<div class="store-card" onclick="openStore(\''+s.name+'\')">'+
+      '<div class="store-card-avatar"><i class="'+s.icon+'"></i></div>'+
+      '<div class="store-card-name">'+s.name+'</div>'+
+      '<div class="store-card-cat">'+s.cat+'</div>'+
+      (count?'<div class="store-card-count">'+count+' produto'+(count!==1?'s':'')+'</div>':'')+
+    '</div>';
+  }).join('');
+  setTimeout(function(){ ['destaque','novos','lojas'].forEach(updateCarouselBtns); }, 80);
+}
+
+function getItemW(trackId) {
+  var track = document.getElementById(trackId);
+  if (!track||!track.children.length) return 204;
+  var gap = parseFloat(getComputedStyle(track).gap)||14;
+  return track.children[0].offsetWidth + gap;
+}
+function updateCarouselBtns(name) {
+  var map = {
+    destaque:{track:'carousel-destaque',prev:'dest-prev', next:'dest-next'},
+    novos:   {track:'carousel-novos',   prev:'novos-prev',next:'novos-next'},
+    lojas:   {track:'carousel-lojas',   prev:'lojas-prev',next:'lojas-next'}
+  };
+  var cfg=map[name], track=document.getElementById(cfg.track), outer=track.parentElement;
+  var total=track.children.length, state=carouselState[name];
+  var vis=Math.max(1,Math.floor(outer.offsetWidth/getItemW(cfg.track)));
+  var maxIdx=Math.max(0,total-vis);
+  document.getElementById(cfg.prev).disabled = state.idx<=0;
+  document.getElementById(cfg.next).disabled = state.idx>=maxIdx;
+}
+function carouselMove(name, dir) {
+  var map = {
+    destaque:{track:'carousel-destaque',prev:'dest-prev', next:'dest-next'},
+    novos:   {track:'carousel-novos',   prev:'novos-prev',next:'novos-next'},
+    lojas:   {track:'carousel-lojas',   prev:'lojas-prev',next:'lojas-next'}
+  };
+  var cfg=map[name], track=document.getElementById(cfg.track);
+  var outer=track.parentElement, total=track.children.length;
+  var itemW=getItemW(cfg.track);
+  var vis=Math.max(1,Math.floor(outer.offsetWidth/itemW));
+  var maxIdx=Math.max(0,total-vis);
+  var state=carouselState[name];
+  state.idx=Math.max(0,Math.min(state.idx+dir,maxIdx));
+  track.style.transform='translateX(-'+(state.idx*itemW)+'px)';
+  document.getElementById(cfg.prev).disabled=state.idx<=0;
+  document.getElementById(cfg.next).disabled=state.idx>=maxIdx;
+}
+
+// ==========================================================
+//  GRID
+// ==========================================================
+function renderGrid(list) {
+  var grid=document.getElementById('grid'), count=document.getElementById('results-count');
+  count.textContent=list.length+' produto'+(list.length!==1?'s':'')+' encontrado'+(list.length!==1?'s':'');
+  if (!list.length) {
+    grid.innerHTML='<div class="empty" style="grid-column:1/-1"><i class="fa-solid fa-box-open"></i><h3>Nenhum produto encontrado</h3><p>Tente buscar por outro termo ou categoria.</p></div>';
+    return;
+  }
+  grid.innerHTML=list.map(cardHTML).join('');
+}
+function applyFilters() {
+  var list=products;
+  if (currentCat&&currentCat!=='Todos') list=list.filter(function(p){ return p.category===currentCat; });
+  if (currentSearch) list=list.filter(function(p){
+    return p.name.toLowerCase().indexOf(currentSearch)!==-1 || p.store.toLowerCase().indexOf(currentSearch)!==-1;
+  });
+  var titleEl=document.getElementById('page-title');
+  if (currentSearch) titleEl.textContent='Resultados para "'+document.getElementById('search-input').value+'"';
+  else if (currentCat&&currentCat!=='Todos') titleEl.textContent=currentCat;
+  else titleEl.textContent='Todos os Produtos';
+  renderGrid(list);
+}
+
+// ==========================================================
+//  SEARCH
+// ==========================================================
+document.getElementById('search-input').addEventListener('input', function(){
+  currentSearch=this.value.toLowerCase().trim();
+  if (currentSearch) showPage('products');
+  applyFilters();
+});
+
+// ==========================================================
+//  FILTER
+// ==========================================================
+function syncCatUI() {
+  document.querySelectorAll('#sidebar-products .cat-item[data-cat]').forEach(function(el){
+    el.classList.toggle('active', el.dataset.cat===currentCat);
+  });
+  document.querySelectorAll('#mobile-cats .cat-chip').forEach(function(el){
+    el.classList.toggle('active', el.dataset.cat===currentCat);
+  });
+}
+function filterCat(cat, el) {
+  currentCat=cat||'Todos';
+  syncCatUI();
+  applyFilters();
+}
+function filterCatMobile(cat, el) {
+  currentCat=cat;
+  syncCatUI();
+  applyFilters();
+}
+
+// ==========================================================
+//  DETAIL
+// ==========================================================
+function openDetail(id) {
+  var p=products.filter(function(x){ return x.id===id; })[0];
+  if (!p) return;
+  currentDetailProductId = id;
+  var fromPage=currentPage;
+  document.getElementById('d-img').src   = p.img;
+  document.getElementById('d-img').alt   = p.name;
+  document.getElementById('d-cat').textContent   = p.category;
+  document.getElementById('d-name').textContent  = p.name;
+  document.getElementById('d-price').textContent = fmt(p.price);
+  document.getElementById('d-store').textContent = p.store;
+  document.getElementById('d-desc').textContent  = p.desc;
+  document.getElementById('detail-back-btn').onclick = function(){
+    showPage(fromPage==='home'?'home':fromPage==='store-detail'?'store-detail':'products');
+  };
+  document.getElementById('d-btn-ver-loja').onclick = function(){
+    openStore(p.store);
+  };
+  showPage('detail');
+}
+
+// ==========================================================
+//  ADD TO CART
+// ==========================================================
+function addToCartFromDetail() {
+  if (!currentDetailProductId) return;
+  var p = products.filter(function(x){ return x.id === currentDetailProductId; })[0];
+  if (!p) return;
+  addToCart(p);
+}
+
+function addToCart(p) {
+  var existing = cart.filter(function(i){ return i.id === p.id; })[0];
+  if (existing) {
+    existing.qty += 1;
+  } else {
+    cart.push({ id: p.id, name: p.name, price: p.price, img: p.img, store: p.store, qty: 1 });
+  }
+  saveCart();
+  showToast(p.name + ' adicionado ao carrinho!');
+}
+
+function updateCartQty(id, delta) {
+  var item = cart.filter(function(i){ return i.id === id; })[0];
+  if (!item) return;
+  item.qty += delta;
+  if (item.qty <= 0) {
+    cart = cart.filter(function(i){ return i.id !== id; });
+  }
+  saveCart();
+  renderCart();
+}
+
+function removeFromCart(id) {
+  cart = cart.filter(function(i){ return i.id !== id; });
+  saveCart();
+  renderCart();
+}
+
+function clearCart() {
+  cart = [];
+  saveCart();
+  renderCart();
+}
+
+// ==========================================================
+//  RENDER CART
+// ==========================================================
+function renderCart() {
+  var container = document.getElementById('cart-content');
+  var countEl = document.getElementById('cart-items-count');
+
+  if (!cart.length) {
+    countEl.textContent = '0 itens';
+    container.innerHTML =
+      '<div class="cart-empty">'+
+        '<i class="fa-solid fa-cart-shopping"></i>'+
+        '<h3>Seu carrinho esta vazio</h3>'+
+        '<p>Adicione produtos ao carrinho para continuar.</p>'+
+        '<button class="btn-start-shopping" onclick="showPage(\'products\')">Ver Produtos</button>'+
+      '</div>';
+    return;
+  }
+
+  var totalItems = cart.reduce(function(s, i){ return s + i.qty; }, 0);
+  var subtotal = cart.reduce(function(s, i){ return s + i.price * i.qty; }, 0);
+  countEl.textContent = totalItems + ' item' + (totalItems !== 1 ? 'ns' : '');
+
+  var itemsHtml = cart.map(function(item) {
+    return '<div class="cart-item">'+
+      '<img class="cart-item-img" src="'+item.img+'" alt="'+item.name+'" loading="lazy" />'+
+      '<div class="cart-item-info">'+
+        '<div class="cart-item-name">'+item.name+'</div>'+
+        '<div class="cart-item-store"><i class="fa-solid fa-store"></i> '+item.store+'</div>'+
+        '<div class="cart-qty-row">'+
+          '<button class="qty-btn" onclick="updateCartQty('+item.id+',-1)"><i class="fa-solid fa-minus"></i></button>'+
+          '<span class="qty-val">'+item.qty+'</span>'+
+          '<button class="qty-btn" onclick="updateCartQty('+item.id+',1)"><i class="fa-solid fa-plus"></i></button>'+
+          '<div class="cart-item-price">'+fmt(item.price * item.qty)+'</div>'+
+        '</div>'+
+      '</div>'+
+      '<button class="cart-item-remove" onclick="removeFromCart('+item.id+')" title="Remover"><i class="fa-solid fa-xmark"></i></button>'+
+    '</div>';
+  }).join('');
+
+  container.innerHTML =
+    '<div class="cart-layout">'+
+      '<div class="cart-items-box">'+
+        '<div class="cart-items-header">Produtos ('+totalItems+' item'+(totalItems!==1?'ns':'')+')</div>'+
+        itemsHtml+
+      '</div>'+
+      '<div class="cart-summary">'+
+        '<div class="cart-summary-title">Resumo do Pedido</div>'+
+        '<div class="summary-row"><span>Subtotal ('+totalItems+' item'+(totalItems!==1?'ns':'')+')</span><span>'+fmt(subtotal)+'</span></div>'+
+        '<div class="summary-row"><span>Frete</span><span style="color:#16a34a;font-weight:700;">Gratis</span></div>'+
+        '<div class="summary-row total"><span>Total</span><span>'+fmt(subtotal)+'</span></div>'+
+        '<button class="btn-checkout" onclick="showToast(\'Redirecionando para pagamento...\')"><i class="fa-solid fa-lock"></i> Finalizar Compra</button>'+
+        '<button class="btn-clear-cart" onclick="clearCart()">Limpar Carrinho</button>'+
+      '</div>'+
+    '</div>';
+}
+
+// ==========================================================
+//  ALL STORES PAGE
+// ==========================================================
+function renderStoresGrid() {
+  var grid = document.getElementById('stores-grid');
+  var countEl = document.getElementById('stores-count');
+  countEl.textContent = storesMeta.length + ' loja' + (storesMeta.length !== 1 ? 's' : '');
+  grid.innerHTML = storesMeta.map(function(s) {
+    var count = products.filter(function(p){ return p.store === s.name; }).length;
+    return '<div class="store-list-card" onclick="openStore(\''+s.name+'\')">'+
+      '<img class="store-list-banner" src="'+s.banner+'" alt="'+s.name+'" loading="lazy" />'+
+      '<div class="store-list-body">'+
+        '<div class="store-list-row">'+
+          '<div class="store-list-avatar"><i class="'+s.icon+'"></i></div>'+
+          '<div class="store-list-name">'+s.name+'</div>'+
+        '</div>'+
+        '<div class="store-list-cat">'+s.cat+'</div>'+
+        '<div class="store-list-count">'+count+' produto'+(count!==1?'s':'')+'</div>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+
+// ==========================================================
+//  STORE DETAIL
+// ==========================================================
+var galleryTrackIdx = 0;
+
+function openStore(storeName) {
+  var s = getStoreMeta(storeName);
+  if (!s) return;
+
+  var fromPage = currentPage;
+
+  document.getElementById('store-back-btn').onclick = function(){
+    showPage(fromPage === 'store-detail' ? 'stores' : (fromPage === 'home' ? 'home' : fromPage));
+  };
+
+  document.getElementById('sd-hero-img').src = s.banner;
+  document.getElementById('sd-hero-img').alt = s.name;
+  document.getElementById('sd-name').textContent = s.name;
+  document.getElementById('sd-cat').textContent = s.cat;
+  var avatarEl = document.getElementById('sd-avatar');
+  avatarEl.innerHTML = '<i class="'+s.icon+'"></i>';
+
+  document.getElementById('sd-desc').textContent = s.desc;
+
+  galleryTrackIdx = 0;
+  var track = document.getElementById('gallery-track');
+  track.style.transform = 'translateX(0)';
+  track.innerHTML = s.gallery.map(function(imgUrl){
+    return '<div class="gallery-item"><img src="'+imgUrl+'" alt="'+s.name+'" loading="lazy" /></div>';
+  }).join('');
+  setTimeout(updateGalleryBtns, 60);
+
+  var storeProds = products.filter(function(p){ return p.store === storeName; });
+  var featProds = storeProds.filter(function(p){ return p.featured; });
+  if (featProds.length < 3) featProds = storeProds.slice(0, 3);
+  else featProds = featProds.slice(0, 3);
+
+  var featGrid = document.getElementById('sd-featured-grid');
+  if (featProds.length) {
+    featGrid.innerHTML = featProds.map(cardHTML).join('');
+  } else {
+    featGrid.innerHTML = '<p style="color:var(--text-muted);font-size:14px;grid-column:1/-1">Nenhum produto encontrado para esta loja.</p>';
+  }
+
+  document.getElementById('sd-ver-todos-btn').onclick = function(){
+    currentCat = 'Todos';
+    currentSearch = '';
+    document.getElementById('search-input').value = '';
+    showPage('products');
+    var grid = document.getElementById('grid');
+    var titleEl = document.getElementById('page-title');
+    titleEl.textContent = 'Produtos de ' + storeName;
+    var list = products.filter(function(p){ return p.store === storeName; });
+    document.getElementById('results-count').textContent = list.length + ' produto' + (list.length!==1?'s':'') + ' encontrado' + (list.length!==1?'s':'');
+    grid.innerHTML = list.map(cardHTML).join('');
+  };
+
+  showPage('store-detail');
+}
+
+// ==========================================================
+//  GALLERY CAROUSEL
+// ==========================================================
+function updateGalleryBtns() {
+  var track = document.getElementById('gallery-track');
+  var outer = track.parentElement;
+  if (!track.children.length) return;
+  var gap = parseFloat(getComputedStyle(track).gap) || 10;
+  var itemW = track.children[0].offsetWidth + gap;
+  var vis = Math.max(1, Math.floor(outer.offsetWidth / itemW));
+  var maxIdx = Math.max(0, track.children.length - vis);
+  document.getElementById('gallery-prev').disabled = galleryTrackIdx <= 0;
+  document.getElementById('gallery-next').disabled = galleryTrackIdx >= maxIdx;
+}
+
+function galleryMove(dir) {
+  var track = document.getElementById('gallery-track');
+  var outer = track.parentElement;
+  if (!track.children.length) return;
+  var gap = parseFloat(getComputedStyle(track).gap) || 10;
+  var itemW = track.children[0].offsetWidth + gap;
+  var vis = Math.max(1, Math.floor(outer.offsetWidth / itemW));
+  var maxIdx = Math.max(0, track.children.length - vis);
+  galleryTrackIdx = Math.max(0, Math.min(galleryTrackIdx + dir, maxIdx));
+  track.style.transform = 'translateX(-' + (galleryTrackIdx * itemW) + 'px)';
+  document.getElementById('gallery-prev').disabled = galleryTrackIdx <= 0;
+  document.getElementById('gallery-next').disabled = galleryTrackIdx >= maxIdx;
+}
+
+// ==========================================================
+//  TOAST
+// ==========================================================
+var toastTimer;
+function showToast(msg) {
+  var t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(function(){ t.classList.remove('show'); }, 2800);
+}
+
+// ==========================================================
+//  INIT
+// ==========================================================
+loadProfile();
+buildBanner();
+buildCarousels();
+applyFilters();
+updateCartBadge();
+
+document.getElementById('sidebar-home').style.display = '';
+['products','stores','store-detail','cart','detail'].forEach(function(p){
+  var el = document.getElementById('sidebar-'+p);
+  if (el) el.style.display = 'none';
+});
+
+window.addEventListener('resize', function() {
+  ['destaque', 'novos', 'lojas'].forEach(updateCarouselBtns);
+});
+</script>
+</body>
+</html>
