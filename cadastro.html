@@ -338,7 +338,7 @@ textarea::placeholder{
 
   <div class="cadastro-box">
 
-    <img src="img/logo.jpeg" alt="ForteLocal" class="logo">
+    <img src="img/img/logo.jpeg" alt="ForteLocal" class="logo">
 
     <h1>Cadastre sua loja</h1>
     <p class="subtitle">
@@ -378,16 +378,6 @@ textarea::placeholder{
         <div class="field">
           <label>E-mail</label>
           <input type="email" placeholder="contato@sualoja.com">
-        </div>
-
-        <div class="field">
-          <label>Forma de pagamento</label>
-          <select>
-            <option>PIX</option>
-            <option>Cartão</option>
-            <option>Dinheiro</option>
-            <option>PIX + Cartão</option>
-          </select>
         </div>
 
         <div class="field field-full">
@@ -440,47 +430,6 @@ textarea::placeholder{
   </div>
 </div>
 
-        <div class="field field-full">
-          <label>Plano da loja</label>
-
-          <div class="plans">
-
-            <div class="plan-card">
-              <h3>Plano Básico</h3>
-              <span class="plan-price">R$ 19/mês</span>
-              <ul>
-                <li>✔ Loja no marketplace</li>
-                <li>✔ Até 10 produtos</li>
-                <li>✔ Chat com clientes</li>
-              </ul>
-            </div>
-
-            <div class="plan-card featured">
-              <div class="plan-badge">MAIS ESCOLHIDO</div>
-              <h3>Plano Destaque</h3>
-              <span class="plan-price">R$ 49/mês</span>
-              <ul>
-                <li>✔ Loja em destaque</li>
-                <li>✔ Produtos ilimitados</li>
-                <li>✔ Prioridade nas buscas</li>
-                <li>✔ Badge especial</li>
-              </ul>
-            </div>
-
-            <div class="plan-card">
-              <h3>Plano Premium</h3>
-              <span class="plan-price">R$ 89/mês</span>
-              <ul>
-                <li>✔ Banner na home</li>
-                <li>✔ Loja premium</li>
-                <li>✔ Divulgação nas redes</li>
-                <li>✔ Suporte prioritário</li>
-              </ul>
-            </div>
-
-          </div>
-        </div>
-
       </div>
 
       <button type="button" class="btn">
@@ -515,24 +464,6 @@ document.querySelectorAll('.upload-box input').forEach(input => {
   });
 
 });
-
-/* ESCOLHER PLANO */
-const plans = document.querySelectorAll('.plan-card');
-
-plans.forEach(plan => {
-
-  plan.addEventListener('click', () => {
-
-    plans.forEach(p => p.classList.remove('selected'));
-
-    plan.classList.add('selected');
-
-  });
-
-});
-
-/* plano de 49 selecionado */
-plans[1].classList.add('selected');
 </script>
 
 </body>
